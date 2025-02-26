@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Chat</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .chat-container {
+            width: 400px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .chat-header {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .chat-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            background-color: #ccf;
+            text-align: right;
+        }
+
+        .other-user-message {
+            background-color: #eee;
+            text-align: left;
+        }
+
+        .chat-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <h3>Online Chat</h3>
+		<button onclick="window.location.href='index.html'">back</button>
+    </div>
+    <div class="chat-body" id="chatBody">
+        <!-- Messages will be added here -->
+    </div>
+    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message...">
+</div>
+
+<script>
+    const chatInput = document.getElementById('chatInput');
+    const chatBody = document.getElementById('chatBody');
+
+    chatInput.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message !== '') {
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user-message');
+            userMessage.textContent = message;
+            chatBody.appendChild(userMessage);
+
+            // Send message to server (replace with actual server logic)
+            // ...
+
+            chatInput.value = ''; // Clear input field
+        }
+    }
+
+    // Simulate receiving messages from the server (replace with actual server logic)
+    setInterval(() => {
+        const otherUserMessage = document.createElement('div');
+		otherUserMessage.classList.add('message', 'other-user-message');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }, 3000); // Simulate a message every 3 seconds
+</script>
+
+</body>
+</html>

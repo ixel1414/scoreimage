@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Gallery</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .media-container {
+            position: relative;
+            margin: 10px;
+        }
+        .media-container img, .media-container video {
+            width: 150px;
+            height: 150px;
+            border: 1px solid #ccc;
+        }
+        .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Media Gallery</h1>
+	<button onclick="window.location.href='index.html'">back</button>
+    <button onclick="uploadMedia()">Foto oder Video hochladen</button>
+    <input type="file" id="media-upload" accept="image/*,video/*" style="display: none;">
+
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+        function uploadMedia() {
+            document.getElementById('media-upload').click();
+        }
+
+        document.getElementById('media-upload').addEventListener('change', (event) => {
+            if (event.target.files && event.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const mediaContainer = document.createElement('div');
+                    mediaContainer.classList.add('media-container');
+
+                    let mediaElement;
+                    if (event.target.files[0].type.startsWith('image/')) {
+                        mediaElement = document.createElement('img');
+                        mediaElement.src = e.target.result;
+                    } else if (event.target.files[0].type.startsWith('video/')) {
+                        mediaElement = document.createElement('video');
+                        mediaElement.src = e.target.result;
+                        mediaElement.controls = true; // Video controls
+                    }
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = "Löschen";
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.addEventListener('click', () => {
+                        mediaContainer.remove();
+                    });
+
+                    mediaContainer.appendChild(mediaElement);
+                    mediaContainer.appendChild(deleteButton);
+                    document.getElementById('gallery').appendChild(mediaContainer);
+                }
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>
